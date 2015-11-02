@@ -21,18 +21,11 @@ class SimpleORM
 	public function __construct($id_ = NULL, $caching_ = false)
 	{
 		$this->_caching = (bool) $caching_;
+		static::$_PDOInstance = \StarterKit\SQL\SimplePDO::getInstance();
 
 		if (!is_null($id_)) {
-			if (is_null(static::$_PDOInstance)) {
-				static::$_PDOInstance = \StarterKit\SQL\SimplePDO::getInstance();
-			}
 			$this->getRecord((int) $id_);
 		}
-	}
-
-	public static function getTable()
-	{
-		return static::$_table;
 	}
 
 	public static function setCachingRules($host_, $port_, $prefix_, $expire_)
@@ -55,6 +48,18 @@ class SimpleORM
 		return $this;
 	}
 
+	public function dbToVars(array $arr_)
+	{
+		foreach ($arr_ as $key => $value) {
+			$this->$key = $value;
+		}
+	}
+
+	public static function getTable()
+	{
+		return static::$_table;
+	}
+
 	public function get($var_)
 	{
 		return $this->$var_;
@@ -63,13 +68,6 @@ class SimpleORM
 	public function getAll()
 	{
 		return get_object_vars($this);
-	}
-
-	public function dbToVars(array $arr_)
-	{
-		foreach ($arr_ as $key => $value) {
-			$this->$key = $value;
-		}
 	}
 
 	public function getRecord($id_ = NULL)
