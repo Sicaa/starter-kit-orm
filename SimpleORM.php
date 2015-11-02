@@ -2,8 +2,8 @@
 
 namespace StarterKit\ORM;
 
-use \StarterKit\SQL\SimplePDO as SimplePDO;
-use \StarterKit\Cache\Memcached as Memcached;
+use \StarterKit\SQL\SimplePDO;
+use \StarterKit\Cache\Memcached;
 
 class SimpleORM
 {
@@ -21,7 +21,7 @@ class SimpleORM
 	public function __construct($id_ = NULL, $caching_ = false)
 	{
 		$this->_caching = (bool) $caching_;
-		static::$_PDOInstance = \StarterKit\SQL\SimplePDO::getInstance();
+		static::$_PDOInstance = SimplePDO::getInstance();
 
 		if (!is_null($id_)) {
 			$this->getRecord((int) $id_);
